@@ -10,41 +10,54 @@ Prerequisites:
 - OpenCode must be installed.
 - Node.js 20 or newer is required for the installer.
 
-Run:
+Clone the repository and build the installer:
 
 ```bash
-npx opencode-discord-activity init
+git clone https://github.com/dis-mal-skull/opencode-discord-activity.git
+cd opencode-discord-activity
+npm install
+npm run build
+node dist/cli.js init
 ```
 
-Restart OpenCode. The activity should appear on your Discord profile as:
+The setup wizard explains each step and asks for:
+
+- Your Discord Application ID, with the shared application selected by default.
+- Presence language.
+- Whether to show the active model, edited file, and elapsed time.
+- Whether to enable the plugin every time OpenCode starts, enabled by default.
+
+This project uses a Discord **Application** for Rich Presence. You do not need to create a bot or add the application to a server. If you choose your own application, create it in the [Discord Developer Portal](https://discord.com/developers/applications) and copy its Application ID.
+
+Restart OpenCode after the wizard finishes. The activity should appear on your Discord profile as:
 
 ```text
 Coding with DeepSeek V4 Flash
 discord-activity • src/index.ts • TypeScript (.ts)
 ```
 
-The default application ID is shared by this project. Use your own Discord application ID if you prefer:
+For non-interactive setup, use flags:
 
 ```bash
-npx opencode-discord-activity init --client-id YOUR_APPLICATION_ID --yes
+node dist/cli.js init --client-id YOUR_APPLICATION_ID --language en --yes
 ```
 
-Create the application in the [Discord Developer Portal](https://discord.com/developers/applications). Rich Presence assets are optional.
+Rich Presence assets are optional.
 
 ## Configuration
 
 ```bash
 # Spanish presence
-npx opencode-discord-activity init --language es --yes
+node dist/cli.js init --language es --yes
 
 # Hide selected fields
-npx opencode-discord-activity init --no-model --no-elapsed --yes
+node dist/cli.js init --no-model --no-elapsed --yes
 
 # Inspect the current installation
-npx opencode-discord-activity status
+node dist/cli.js status
 
 # Remove the plugin
-npx opencode-discord-activity remove --yes
+node dist/cli.js remove --yes
 ```
 
 The CLI updates the global OpenCode config at `~/.config/opencode/opencode.json` or `opencode.jsonc`. Existing files are backed up before changes. Running `init` again is safe and does not duplicate the plugin.
@@ -84,7 +97,7 @@ If the activity does not appear:
 
 1. Confirm Discord Desktop is open.
 2. Restart OpenCode after running `init`.
-3. Run `npx opencode-discord-activity status` and verify the plugin is installed.
+3. Run `node dist/cli.js status` and verify the plugin is installed.
 4. Check Discord privacy settings and allow activity status.
 5. If you use a custom application, confirm its application ID and Rich Presence settings.
 
